@@ -5,6 +5,7 @@ const config = require('config');
 const auth = require('../../middleware/auth');
 const Profile = require('../../models/Profile');
 const User = require('../../models/User');
+const Post = require('../../models/Posts');
 const router = express.Router();
 
 // @route   GET api/profile/me
@@ -151,7 +152,8 @@ router.get('/user/:user_id', async (req, res) => {
 // @access  Public
 router.delete('/', auth, async (req, res) => { 
     try {
-        // @todo - remove user posts
+        // remove user posts
+        await Post.deleteMany({ user: req.user.id });
 
         //Remove profile
         await Profile.findOneAndRemove({ user: req.user.id });
@@ -260,7 +262,7 @@ router.delete('/education/:edu_id', auth, async (req, res) => {
         //Get remove index
         const removeIndex = profile.education.map(item => item.id).indexOf(req.params.edu_id);
         profile.education.splice(removeIndex, 1);
-        await profile.save()
+        await profile.save();
         res.json(profile);
     } catch (err) {
         console.error(err.message);
