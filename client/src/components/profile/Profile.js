@@ -14,7 +14,7 @@ const Profile = ({ getProfileById, profile: {profile, loading}, auth, match}) =>
 
     useEffect(() => {
        getProfileById(match.params.id);
-    }, [getProfileById, match.params.id])
+    }, [match.params.id])
 
     return (
         <Fragment>
@@ -50,7 +50,7 @@ const Profile = ({ getProfileById, profile: {profile, loading}, auth, match}) =>
                             </Fragment>
                         ) : (<h4>No Education Credentials</h4>)}
                     </div>
-                    {profile.githubusername && <ProfileGitHub username={profile.githubusername}/>}
+                    {false && profile.githubusername && <ProfileGitHub username={profile.githubusername}/>}
                 </Fragment>
                 
             )}
